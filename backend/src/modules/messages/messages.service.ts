@@ -5,14 +5,19 @@ import { DatabaseService } from '../database/database.service';
 export class MessagesService {
     constructor(private readonly db: DatabaseService) { }
 
+    // Pobiera wszystkie wiadomości
     async getMessage() {
-        const { data, error } = await this.db.client
-            .from('messages')
-            .select('content')
-            .eq('id', 1)
-            .single();
-
+        const client = this.db.getClient();
+        const { data, error } = await client.from('messages').select('*');
         if (error) throw new Error(error.message);
         return data;
+    }
+
+    // Pobiera wiadomość po ID
+    async getMessageById(id: number) {
+        const client = this.db.getClient();
+        const { data, error } = await client.from('messages').select('*').eq('id', id);
+        if (error) throw new Error(error.message);
+        return data[0]; // zwraca tylko pierwszą pasującą wiadomość
     }
 }

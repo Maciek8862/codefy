@@ -2,15 +2,16 @@
 
 export default function Home() {
     useEffect(() => {
-        const fetchMessage = async () => {
+        async function fetchMessage() {
             try {
-                const res = await fetch('https://codefy-qqlw.onrender.com/messages');
+                const res = await fetch('https://codefy-qqlw.onrender.com/messages/1');
                 const data = await res.json();
-                alert(data.content); // Alert z content id=1
+                alert(data.content); // Wyświetla w przeglądarce wartość z Supabase
             } catch (err) {
-                console.error(err);
+                console.error('Error fetching message:', err);
             }
-        };
+        }
+
         fetchMessage();
     }, []);
 

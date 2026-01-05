@@ -1,14 +1,19 @@
-﻿import { Controller, Get } from '@nestjs/common';
+﻿import { Controller, Get, Param } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 
 @Controller('messages')
 export class MessagesController {
     constructor(private readonly messagesService: MessagesService) { }
 
+    // GET /messages
     @Get()
-    async getMessage() {
-        // Pobierz rekord o id 1
-        const message = await this.messagesService.getMessageById(1);
-        return { content: message?.content || 'No message found' };
+    async getAllMessages() {
+        return await this.messagesService.getMessage();
+    }
+
+    // GET /messages/1
+    @Get(':id')
+    async getMessageById(@Param('id') id: string) {
+        return await this.messagesService.getMessageById(Number(id));
     }
 }
