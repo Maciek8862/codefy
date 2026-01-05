@@ -6,9 +6,7 @@ export class MessagesController {
     constructor(private readonly messagesService: MessagesService) { }
 
     @Get()
-    async getMessages() {
-        // Zwraca JSON z backendu
-        return this.messagesService.getAllMessages();
+    async getMessage() {
+        return this.messagesService.getMessage();
     }
 }
-    

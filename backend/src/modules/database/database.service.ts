@@ -1,27 +1,23 @@
 ﻿import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 @Injectable()
 export class DatabaseService {
     private supabase: SupabaseClient;
 
-    constructor() {
-        this.supabase = createClient(
-            process.env.SUPABASE_URL!,
-            process.env.SUPABASE_KEY!
-        );
+    constructor(private config: ConfigService) {
+        const url = this.config.get<string>('SUPABASE_URL');
+        const key = this.config.get<string>('SUPABASE_KEY');
+
+        if (!url || !key) {
+            throw new Error('Supabase env variables are missing');
+        }
+
+        this.supabase = createClient(url, key);
     }
 
-    // publiczna metoda do fetchowania danych z tabeli
-    public async fetchTable(tableName: string) {
-        const { data, error } = await this.supabase
-            .from(tableName)
-            .select('*');
-
-        if (error) throw new Error(error.message);
-        return data;
+    get client() {
+        return this.supabase;
     }
 }

@@ -5,8 +5,17 @@ import { DatabaseService } from '../database/database.service';
 export class MessagesService {
     constructor(private readonly db: DatabaseService) { }
 
-    async getAllMessages() {
-        // wywołujemy publiczną metodę fetchTable
-        return await this.db.fetchTable('messages');
+    async getMessage() {
+        const { data, error } = await this.db.client
+            .from('messages')
+            .select('content')
+            .eq('id', 1)
+            .single();
+
+        if (error) {
+            throw new Error(error.message);
+        }
+
+        return data;
     }
 }
