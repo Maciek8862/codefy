@@ -1,23 +1,26 @@
 ﻿import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 @Injectable()
 export class DatabaseService {
-    private supabase: SupabaseClient;
+    private readonly supabase: SupabaseClient;
 
-    constructor(private config: ConfigService) {
-        const url = this.config.get<string>('SUPABASE_URL');
-        const key = this.config.get<string>('SUPABASE_KEY');
-
-        if (!url || !key) {
-            throw new Error('Supabase env variables are missing');
+    constructor() {
+        if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
+            throw new Error('Supabase ENV variables are missing');
         }
-
-        this.supabase = createClient(url, key);
+        this.supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
     }
 
-    get client() {
+    // getter dostępny publicznie
+    get client(): SupabaseClient {
         return this.supabase;
+    }
+
+    // opcjonalnie helper
+    async fetchTable(tableName: string) {
+        const { data, error } = await this.supabase.from(tableName).select('*');
+        if (error) throw new Error(error.message);
+        return data;
     }
 }
