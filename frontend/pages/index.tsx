@@ -4,7 +4,7 @@ export default function Home() {
     useEffect(() => {
         async function fetchMessage() {
             try {
-                const res = await fetch('https://codefy-qqlw.onrender.com/messages/1');
+                const res = await fetch('https://codefy-qqlw.onrender.com/messages');
                 const data = await res.json();
                 alert(data.content); // Wyświetla w przeglądarce wartość z Supabase
             } catch (err) {

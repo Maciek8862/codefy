@@ -7,8 +7,8 @@ async function bootstrap() {
     app.enableCors({
         origin: '*', // lub dokładny URL frontendu
     });
-    await app.listen(process.env.PORT || 3000);
-    console.log(`🚀 Backend running on port ${process.env.PORT || 3000}`);
+    await app.listen(process.env.PORT || 3001);
+    console.log(`🚀 Backend running on port ${process.env.PORT || 3001}`);
 }
 
 bootstrap();
