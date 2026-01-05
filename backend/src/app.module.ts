@@ -1,7 +1,6 @@
 ﻿import { Module } from '@nestjs/common';
-import { MessagesModule } from './modules/messages/messages.module';
 
 @Module({
-    imports: [MessagesModule], // <--- bardzo ważne
+  imports: [],
 })
-export class AppModule { }
+export class AppModule {}
