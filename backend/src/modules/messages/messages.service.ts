@@ -17,4 +17,16 @@ export class MessagesService {
         if (error) throw new Error(error.message);
         return data;
     }
+
+    async createMessage(content: string) {
+        const client = this.db.client;
+        const { data, error } = await client
+            .from('messages')
+            .insert({ content })
+            .select()
+            .single();
+
+        if (error) throw new Error(error.message);
+        return data;
+    }
 }
