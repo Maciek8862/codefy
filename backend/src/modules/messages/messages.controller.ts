@@ -7,6 +7,8 @@ export class MessagesController {
 
     @Get()
     async getMessage() {
-        return this.messagesService.getMessage();
+        // Pobierz rekord o id 1
+        const message = await this.messagesService.getMessageById(1);
+        return { content: message?.content || 'No message found' };
     }
 }

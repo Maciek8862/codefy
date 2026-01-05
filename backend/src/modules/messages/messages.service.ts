@@ -5,17 +5,17 @@ import { DatabaseService } from '../database/database.service';
 export class MessagesService {
     constructor(private readonly db: DatabaseService) { }
 
-    async getMessage() {
-        const { data, error } = await this.db.client
+    async getMessageById(id: number) {
+        const { data, error } = await this.db.getClient()
             .from('messages')
             .select('content')
-            .eq('id', 1)
+            .eq('id', id)
             .single();
 
         if (error) {
-            throw new Error(error.message);
+            console.error(error);
+            return null;
         }
-
         return data;
     }
 }
